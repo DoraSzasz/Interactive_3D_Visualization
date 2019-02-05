@@ -1,0 +1,32 @@
+.nothanks {
+    position: absolute;
+    font-size: 192px !important;
+    background: white;
+    color: red;
+    border: 20px solid red !important;
+    font-weight: 700 !important;
+    white-space: nowrap;
+    transform: translate3d(20px, -390px, 0px) rotate(-15deg);
+    pointer-events: none;
+    transition-duration: 3s !important;
+}
+
+.nothanks.visible {
+    transform: translate3d(20px, -400px, 0px) rotate(-30deg);
+}
+
+.green-swatch {
+    display:inline-block; 
+    width: 150px; 
+    height: 150px; 
+    margin: 30px auto; 
+    background: #0f0;
+}
+
+.mesh-equation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    margin: 50px auto !important;
+}

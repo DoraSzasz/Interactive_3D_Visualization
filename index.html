@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Interactive 3D Computer Graphics Using WebGL</title>
+
+		<meta name="description" content="Interactive 3D Computer Graphics Using WebGL">
+		<meta name="author" content="Teodora Szasz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style>
+		.container{
+			display: flex;
+			}
+		.col{
+			flex: 1
+		}
+	</style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3>Interactive 3D Computer Graphics Using WebGL</h3>
+					<br>
+					<p>Teodora Szasz</p>
+					<p><small>Image Analysis & Data Visualization Specialist</small></p>
+					<p><small>tszasz@uchicago.edu</small></p>
+					<p><small>Tuesday, February 05, 2019</small></p>
+					<p><small> <a href="https://rcc.uchicago.edu/">Research Computing Center</a></small></p>
+				</section>
+
+				
+				<section>
+					<h3>Contents</h3>
+					<br>
+					
+					<p> 
+					<ul>
+						<li> Introduction </li>
+						<li> Basic Concepts </li>
+						<li> Coding </li>
+					</ul>
+					
+					</p>
+
+					<aside class="notes">
+						
+
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h3>Motivation</h3>
+						<p> Brain Stimulation 3D Rendering </p>
+						<iframe class="stretch" data-src="http://gallantlab.org/brainviewer/huthetal2012/"></iframe>
+
+						<aside class="notes">
+						I am Teodora Szasz, Image Analysis and Data Visualization Specialist at RCC and We are going to learn and practice today about a topic I really love: computer graphics. A few years ago, such a workshop would have been expremely difficult; with the rise of WebGL, we can simply click on a link and run a 3D demo. <br>
+						Everything that we can see on a computer screen can be called computer graphics. 
+						This program developed by James Gallant shows MRI data of how the brain is stimulated when exposed to different objects and actions. On the right is the 2D system for picking an object. On the left, we can see the areas stimulated.
+
+						</aside>
+					</section>
+					
+					<section>
+					<h3>Musical Turk</h3>
+					<iframe class="stretch" data-src="http://ulysse.io/turk/#"></iframe>
+					</section>
+					
+					<section>
+					<h3>The Spirit</h3>
+					<iframe class="stretch" data-src="http://edankwan.com/experiments/the-spirit/"></iframe>
+					</section>
+					
+				</section>	
+				
+				
+				<section>
+					<section>
+						<h3>Introduction</h3>
+					</section>
+					<section>
+						<h3>to render = to create an image</h3>
+							<p>In 3D <=> defining a 3D world</p>
+						
+						<p>
+						<ul>
+							<li> objects </li>
+							<li> materials </li>
+							<li> lights </li>
+							<li> camera </li>
+						</ul>
+						</p>
+						
+					<p>render onto a 2D screen</p>
+			
+					<br>
+					</section>
+
+					<aside class="notes">
+						<p> As for interactivity: Video games provide us obvious examples. If we turn the wheel left in a racing game, you go that direction. By interactive 3D we mean that users interactions affects something in the 3D virtual world. </p>
+
+					</aside>
+				</section>
+
+				<section>
+					<h3>Libraries for creating interactive 3D rendering</h3>
+					<p> 
+					<ul>
+						<li> WebGL </li>
+						<li> Three.js </li>
+						<li> Tween.js </li>
+						<li> VTK.js </li>
+					</ul>
+					</p>
+					
+					<aside class="notes">
+						<p> WebGL is built in a number of browsers, so we don't need to install anything.  </p>
+					</aside>
+					</section>
+					
+				<section>
+					
+					<section id="fragments">
+						<h3>Core ideas</h3>
+						<p> Refresh Rate </p>
+						<p class="fragment">Frames per Second</p>
+						<p class="fragment">View Frustum</p>
+						<p class="fragment">Scene</p>
+						
+
+						<aside class="notes">
+						<p> Refresh Rate: How many times an image is displayed per second </p> <br>
+						<p> Frames per Second: Number of images per second. At least 30 fps. For video games: 30 or 60 fps. In film industry: 24 fps, 48 fps, or 72 fps. In film industry, we have lower fps rate compared to video games, because the film captures the motion blur - when a frame is captured by the camera, objects moving will be slightly blurred (they look more realistic.)</p> <br>
+						<p> The pyramid-shaped view of the world in computer graphics. What a camera sees</p> <br>
+						<p>Scene: consists of: objects (described by geometry and material), light, camera</p>
+						
+						</aside>
+					</section>
+			
+					<section>
+						<h4>Demo FPS</h4>
+						<iframe src="demos/index.html?load=demo/unit1-fps.js" data-autoplay width="900" height="600"></iframe>
+						
+					</section>
+				</section>
+				
+				<section>
+					<h3>Three.js</h3>
+					
+					<section id="fragments">
+						<p> <a href="http://threejs.org">Three.js</a> </p>
+						<p class="fragment">Lightweight</p>
+						<p class="fragment">Easy to use</p>
+						<p class="fragment">Popular and used commercially</p>
+						<p class="fragment">Performant WebGL renderer</p>
+						<p class="fragment">Has Canvas, CSS3D, and SVG renderers</p>
+						
+
+						<aside class="notes">
+						</aside>
+					</section>
+				</section>
+
+				
+
+					<section>
+						<section>
+							<h3>Our First Scene</h3>
+							<iframe class="stretch" data-src="examples/cube.html"></iframe>
+							<p class="fragment">Open <a href="examples/cube.html">this link</a> in a new tab</p>
+							<p class="fragment">Press CTRL + U to see the source code</p>
+							<aside class="notes" data-markdown>
+							<script type="text/template">
+							</script>
+						</aside>
+						
+						</section>
+						
+						<section>
+						 <h3>The Scene Graph</h3>
+						 <img class="stretch" src="img/scenegraph.png" />
+						 <aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+						</aside>
+						</section>
+						
+						<section>
+						 <h3>Time to code</h3>
+						 <p class="fragment">Stop the rotation of the cube</p>
+						</section>
+					</section>
+					
+					<section>
+					<h3>Boilerplate</h3>
+					<pre class="stretch"><code class="html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My first Three.js app&lt;/title&gt;
+        &lt;style&gt;
+            body { margin: 0; }
+            canvas { width: 100%; height: 100% }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/three.js/r82/three.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            // OUR CODE WILL GO HERE
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Geometry</h3>
+					<p>Geometry = Shape</p>
+					<pre><code class="js">var geometry = new THREE.BoxGeometry(1, 1, 1);</code></pre>
+
+					<iframe data-src="examples/cube-wireframe.html" width="300" height="300"></iframe>
+
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Material</h3>
+					<pre><code class="js">var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });</code></pre>
+					<div class="green-swatch"></div>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Mesh</h3>
+					<pre><code class="js">var cube = new THREE.Mesh(geometry, material);</code></pre>
+					<div class="fragment fade-in mesh-equation">
+						<iframe data-src="examples/cube-wireframe.html" width="150" height="150"></iframe>
+						<div style="font-size: 32px">+</div>
+						<div class="green-swatch"></div>
+						<div style="font-size: 32px">=</div>
+						<iframe data-src="examples/cube.html" width="150" height="150"></iframe>
+					</div>
+					<pre class="fragment fade-in"><code class="js">cube.position.x = 0;
+cube.position.y = 0;
+cube.position.z = 0;
+cube.rotation.x = 0;
+cube.rotation.y = 0;
+cube.rotation.z = 0;</code></pre>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Scene</h3>
+					<p>Scene = The World = A list of meshes</p>
+					<pre><code class="js">var scene = new THREE.Scene();
+scene.add(cube);</code></pre>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Camera</h3>
+					<p>Camera = Your Eyes</p>
+					<pre><code class="js" style="overflow: hidden;">var aspectRatio = window.innerWidth/window.innerHeight;
+var camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
+camera.position.z = 2;</code></pre>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Renderer</h3>
+					<p>Renderer = How you draw on the canvas</p>
+					<pre><code class="js">var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+var canvas = renderer.domElement;
+document.body.appendChild(canvas);</code></pre>
+					<pre class="fragment fade-in"><code class="js">renderer.render(scene, camera);</code></pre>
+					
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Let's look at our Scene!</h3>
+					<iframe class="stretch" data-src="examples/cube-static.html"></iframe>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Render Loop</h3>
+					<pre><code class="js">function render() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+}
+
+render();</code></pre>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>LOOKIT!</h3>
+                    <iframe class="stretch" data-src="examples/cube.html"></iframe>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Texture</h3>
+					<pre><code class="js">var texture = new THREE.TextureLoader().load('textures/crate.gif');
+var material = new THREE.MeshBasicMaterial({ map: texture });</code></pre>
+					<img class="green-swatch" data-src="examples/textures/crate.gif" alt="" />
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Nice!</h3>
+                    <iframe class="stretch" data-src="examples/cube-texture.html"></iframe>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>The Scene Graph</h3>
+					<img class="stretch" src="img/scenegraph.png" />
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h2>Three.JS Examples</h2>
+					<p>Let's learn two last things:</p>
+					<ul>
+						<li>Controls</li>
+						<li>Effects</li>
+					</ul>
+					<div>
+						<a href="https://threejs.org/examples" target="_blank">To the Examples Page!</a>
+					</div>
+					</script>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h3>Controls</h3>
+					<div>
+						<a href="https://threejs.org/examples/#misc_controls_orbit" target="_blank">An Example</a>
+					</div>
+					<p>These aren't included in Three.js, they are plugins contained in separate JS files</p>
+					<pre class="fragment fade-in"><code class="html">&lt;script src="OrbitControls.js"&gt;&lt;/script&gt;</code></pre>
+					<pre class="fragment fade-in"><code class="js">var controls = new THREE.OrbitControls(camera, canvas);</code></pre>
+					<pre class="fragment fade-in"><code class="js">function render() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    controls.update();
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+}
+
+render();</code></pre>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h2>Click and Drag the mouse</h2>
+                    <iframe class="stretch" data-src="examples/cube-controls.html"></iframe>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h2>Effects</h2>
+					<div>
+						<a href="https://threejs.org/examples/#webgl_effects_stereo" target="_blank">An Example</a>
+					</div>
+					<p>These are also plugins.</p>
+					<pre class="fragment fade-in"><code class="html">&lt;script src="StereoEffect.js"&gt;&lt;/script&gt;</code></pre>
+					<pre class="fragment fade-in"><code class="js">var renderer = new THREE.WebGLRenderer();
+var canvas = renderer.domElement;
+document.body.appendChild(canvas);
+
+var effect = new THREE.StereoEffect( renderer );
+effect.setSize(window.innerWidth, window.innerHeight);</code></pre>
+					<pre class="fragment fade-in"><code class="js">function render() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    controls.update();
+
+    effect.render(scene, camera);
+
+    requestAnimationFrame(render);
+}
+
+render();</code></pre>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+				<section>
+					<h2>Virtual Reality</h2>
+                    <iframe class="stretch" data-src="examples/cube-vr.html"></iframe>
+					<aside class="notes" data-markdown>
+						<script type="text/template">
+						</script>
+					</aside>
+				</section>
+
+					<section>
+				    	<p>RCC's past and future workshops available to download</p>
+				    	 <a href="https://rcc.uchicago.edu/support-and-services/workshops-and-training">https://rcc.uchicago.edu/support-and-services/workshops-and-training</a>
+				    </section>
+
+				<section>
+					<h3>Join the Visualization Team on Slack</h3>
+					<p>
+						<ul>
+							<li> Join the RCC's image analysis and visualization <a href="https://rcc-visualization.slack.com/signup"> Slack team</a> </li>
+					</p>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+			</script>
+
+		</body>
+</html>
